@@ -1,0 +1,64 @@
+{include file="public::header" /}
+{include file="public::nav" /}
+<div class="container">
+    <div id="jxhz-message">
+        <div class="page-header">
+            <h1>当前位置：首页&nbsp;-&nbsp;留言板</h1>
+        </div>
+        <div class="jxhz-message">
+            <h5><p class="label label-primary">请正确填写以下内容，方便我们可以和你及时沟通！</p></h5>
+            <div class="jxhz-messagecon">
+                <form method="post" id="jxhz-messagebord">
+                    <ul class="clearfix">
+                        <li class="col-xs-12 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="jxhz-username">*姓名：</span>
+                                <input type="text" name="jxhz-username" class="form-control" aria-describedby="jxhz-username" placeholder="请输入用户名！">
+                            </div>
+                        </li>
+                        <li class="col-xs-12 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="jxhz-tel">*电话：</span>
+                                <input type="text" name="jxhz-tel" class="form-control jxhz-tel" aria-describedby="jxhz-tel" placeholder="请输入电话号码！">
+                            </div>
+                        </li>
+                        <li class="col-xs-12">
+                            <textarea name="jxhz-lyb" id="jxhz-lyb" placeholder="请输入留言内容！"></textarea>
+                        </li>
+                    </ul>
+                    <input type="button" value="提交" id="jxhz-tj">
+                </form>
+            </div>
+            <div class="demo"></div>
+        </div>
+    </div>
+</div>
+<script src="/static/js/jquery-1.12.2.min.js"></script>
+<script>
+    /* 电话验证 */
+    $('#jxhz-tj').on('click',function(){
+        var tel = $('.jxhz-tel').val(),
+            reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
+        if( !reg.test(tel)){
+            alert('手机号码格式不符！');
+            return false;
+        }else{
+            $.ajax({
+                type: 'post',
+                datType: 'json',
+                url: '/index.php/index/Demo/getBase',
+                data: $('#jxhz-messagebord').serialize(),
+                success: function(data){
+                    alert(data);
+                    if(data = '留言成功'){
+                        window.location.reload();
+                    }
+                },
+                error: function(){
+                    alert('数据错误！');
+                }
+            })
+        }
+    });
+</script>
+{include file="public::footer" /}
